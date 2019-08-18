@@ -249,3 +249,307 @@ loc:Char      BYTE,AUTO
   . . .
   Return(loc:CRC)
 ```
+
+
+# Перевод Long to Hex
+
+```
+Long2Hex    Procedure(Long X)
+Loc:X       Long
+Loc:Digit   Short
+Loc:Hex     String('00000000')
+            Code
+            Loc:X=X
+            Loop i#=8 To 1 By -1
+              Loc:Digit=Loc:X % 16
+              Loc:Hex[I#]=Sub('0123456789ABCDEF',Loc:Digit+1,1)
+              Loc:X = (Loc:X-Loc:Digit) / 16
+              If Loc:X=0 Then Break.
+            End
+            Return(Loc:Hex)
+```
+
+# Транслитерация
+
+```
+ChangeName Function(RusName)
+EngName     String(255)
+            Code
+            J = 1
+            Loop I = 1 To Len(Clip(RusName))
+                Case RusName[I]
+                    OF 'я'
+                        EngName[J] = 'j'
+                        J += 1
+                        EngName[J] = 'a'
+                    OF 'Я'
+                        EngName[J] = 'J'
+                        J += 1
+                        EngName[J] = 'a'
+                    OF 'с'
+                        EngName[J] = 's'
+                    OF 'С'
+                        EngName[J] = 'S'
+                    OF 'ч'
+                        EngName[J] = 't'
+                        J += 1
+                        EngName[J] = 's'
+                        J += 1
+                        EngName[J] = 'c'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'Ч'
+                        EngName[J] = 'T'
+                        J += 1
+                        EngName[J] = 's'
+                        J += 1
+                        EngName[J] = 'c'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'м'
+                        EngName[J] = 'M'
+                    OF 'М'
+                        EngName[J] = 'M'
+                    OF 'и' OROF 'й'
+                        EngName[J] = 'i'
+                    OF 'И' OROF 'Й'
+                        EngName[J] = 'I'
+                    OF 'т'
+                        EngName[J] = 't'
+                    OF 'Т'
+                        EngName[J] = 'T'
+                    OF 'б'
+                        EngName[J] = 'b'
+                    OF 'Б'
+                        EngName[J] = 'B'
+                    OF 'ю'
+                        EngName[J] = 'j'
+                        J += 1
+                        EngName[J] = 'u'
+                    OF 'Ю'
+                        EngName[J] = 'J'
+                        J += 1
+                        EngName[J] = 'u'
+                    OF 'ц'
+                        EngName[J] = 't'
+                        J += 1
+                        EngName[J] = 's'
+                    OF 'Ц'
+                        EngName[J] = 'T'
+                        J += 1
+                        EngName[J] = 's'
+                    OF 'у'
+                        EngName[J] = 'u'
+                    OF 'У'
+                        EngName[J] = 'U'
+                    OF 'к'
+                        EngName[J] = 'k'
+                    OF 'К'
+                        EngName[J] = 'K'
+                    OF 'е' OROF 'ё'
+                        EngName[J] = 'e'
+                    OF 'Е' OROF 'Ё'
+                        EngName[J] = 'E'
+                    OF 'н'
+                        EngName[J] = 'n'
+                    OF 'Н'
+                        EngName[J] = 'N'
+                    OF 'г'
+                        EngName[J] = 'g'
+                    OF 'Г'
+                        EngName[J] = 'G'
+                    OF 'ш' OROF 'щ'
+                        EngName[J] = 's'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'Ш' OROF 'Щ'
+                        EngName[J] = 'S'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'з'
+                        EngName[J] = 'z'
+                    OF 'З'
+                        EngName[J] = 'Z'
+                    OF 'х'
+                        EngName[J] = 'c'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'Х'
+                        EngName[J] = 'C'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'ф'
+                        EngName[J] = 'f'
+                    OF 'Ф'
+                        EngName[J] = 'F'
+                    OF 'в'
+                        EngName[J] = 'v'
+                    OF 'В'
+                        EngName[J] = 'V'
+                    OF 'а'
+                        EngName[J] = 'a'
+                    OF 'А'
+                        EngName[J] = 'A'
+                    OF 'п'
+                        EngName[J] = 'p'
+                    OF 'П'
+                        EngName[J] = 'P'
+                    OF 'р'
+                        EngName[J] = 'r'
+                    OF 'Р'
+                        EngName[J] = 'R'
+                    OF 'о'
+                        EngName[J] = 'o'
+                    OF 'О'
+                        EngName[J] = 'O'
+                    OF 'л'
+                        EngName[J] = 'l'
+                    OF 'Л'
+                        EngName[J] = 'L'
+                    OF 'д'
+                        EngName[J] = 'd'
+                    OF 'Д'
+                        EngName[J] = 'D'
+                    OF 'ж'
+                        EngName[J] = 'z'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'Ж'
+                        EngName[J] = 'Z'
+                        J += 1
+                        EngName[J] = 'h'
+                    OF 'э'
+                        EngName[J] = 'e'
+                    OF 'Э'
+                        EngName[J] = 'E'
+                    OF 'ь' OROF 'ъ'
+                        J -= 1
+                    OF 'Ь' OROF 'Ъ'
+                        J -= 1
+                    Else
+                        EngName[J] = RusName[I]
+                End
+                J += 1
+            End
+            Return(Clip(EngName))
+```
+			
+# Уникальный индификатор
+
+```
+! xGenGlobalID         PROCEDURE(), STRING      получить уникальный индификатор записи
+!--------------------------------------------------------------------------------
+xGenGlobalID           PROCEDURE()
+GlobalID               STRING(20)
+  CODE
+  LOOP i# = 1 to 20
+    EXECUTE RANDOM(1,3)
+      GlobalID[i#] = CHR(RANDOM(48,57))
+      GlobalID[i#] = CHR(RANDOM(65,90))
+      GlobalID[i#] = CHR(RANDOM(97,122))
+    END
+  END
+  RETURN GlobalID
+```
+# Функция замены в строке
+
+```
+Replace PROCEDURE(STRING Text,STRING Find,STRING Replace,BYTE CS=FALSE)
+Pos  UNSIGNED,AUTO
+RVal ANY ! Do not add ,AUTO
+  CODE
+    LOOP
+      Pos =  CHOOSE(~CS,INSTRING(UPPER(Find),UPPER(Text),1),INSTRING(Find,Text,1))
+      RVal = RVal & CHOOSE(~Pos,Text,Text[1 : Pos-1] & Replace)
+      Text = CHOOSE(~Pos,'',Text[Pos+LEN(Find) : LEN(Text)])
+    UNTIL ~Text
+    RETURN RVal
+```
+
+# Функция разрезания строки на куски
+
+```
+!------------------------------------------------------------------------------!
+! Функция разбивающая строку на равные части без "разрезания" слов.            !
+!------------------------------------------------------------------------------!
+AlignString  PROCEDURE( DestStr, SourceStr, CharPerLine )
+
+SourceStr    EXTERNAL                            ! Исходная строка
+DestStr      EXTERNAL                            ! Строка результат
+CharPerLine  SHORT                               ! Длина одной линии
+
+LEN_SOURCE   LONG                                ! Длина исходной строки
+EOS          SHORT                               ! Признак конца строки
+NDX          LONG                                ! Индекс текущего символа
+
+LEN_DEST     LONG                                ! Длина результата
+
+CUR_LINE     STRING( 255 )                       ! Текущая линия
+LEN_LINE     SHORT                               ! Длина текущей линии
+
+INWORD       SHORT                               ! Флаг "внутри слова"
+LEN_WORD     SHORT                               ! Длина текущего слова
+CHAR_EMPTY   SHORT                               ! Признак пустого символа
+
+  CODE
+
+  LEN_SOURCE = LEN( CLIP( SourceStr ) )          ! Вычислить длину исходной стр.
+  EOS        = FALSE                             ! Строка не закончилась
+  NDX      = 1                                   ! Текущий - первый символ
+
+  CLEAR( DestStr )                               ! Очистить выходную строку
+  LEN_DEST = 0                                   ! Обнулить ее длину
+
+  CLEAR( CUR_LINE )                              ! Очистить текущую линию
+  LEN_LINE = 0                                   ! Обнулить ее длину
+
+  INWORD   = FALSE                               ! Флаг - "вне слова"
+  LEN_WORD = 0                                   ! Обнулить длину слова
+
+  DO GET_CHAR
+  LOOP WHILE NOT EOS
+    IF CHAR_EMPTY
+      IF INWORD
+        INWORD = FALSE
+        IF LEN_LINE + LEN_WORD > CharPerLine
+          DestStr = SUB( DestStr, 1, LEN_DEST ) & CUR_LINE
+          CLEAR( CUR_LINE )
+          LEN_LINE = 0
+          LEN_DEST += CharPerLine
+        .
+        CUR_LINE = SUB( CUR_LINE, 1, LEN_LINE ) |
+                   & SUB( SourceStr, NDX - LEN_WORD - 1, LEN_WORD )
+        LEN_LINE += LEN_WORD + 1
+        LEN_WORD = 0
+      .
+    ELSE
+      IF INWORD
+        LEN_WORD += 1
+      ELSE
+        LEN_WORD = 1
+        INWORD = TRUE
+    . .
+    DO GET_CHAR
+  .
+  DestStr = SUB( DestStr, 1, LEN_DEST ) & CUR_LINE
+
+!------------ Получить очередной символ из строки ------------------------------
+
+GET_CHAR     ROUTINE
+
+  IF NDX > LEN_SOURCE                            ! Если строка закончилась
+    IF NDX = LEN_SOURCE + 1                      !   Если только что
+      CHAR_EMPTY = TRUE                          !     то эмулируем пустой
+    ELSE                                         !   иначе
+      EOS = TRUE                                 !     конец строки
+    .                                            ! иначе
+  ELSE                                           !   Проверим текущий
+    CASE VAL( SUB( SourceStr, NDX, 1 ) )         !   символ на пустоту
+    OF 9 OROF 10 OROF 13 OROF 32                 !
+      CHAR_EMPTY = TRUE                          !
+    ELSE                                         !
+      CHAR_EMPTY = FALSE                         !
+  . .                                            !
+  NDX += 1                                       ! Переход к следующему символу
+
+```
