@@ -4,9 +4,10 @@
 # Dec2Hex Hex2Dec преобразования
 
 !----------------------------------------------------------------------
-    Dec2Hex(LONG Param:lNumber),STRING,PRIVATE
-    Hex2Dec(STRING Param:stNumber),LONG,PRIVATE
+    DEC2HEX(LONG PARAM:LNUMBER),STRING,PRIVATE
+    HEX2DEC(STRING PARAM:STNUMBER),LONG,PRIVATE
 !----------------------------------------------------------------------
+```
 Dec2Hex PROCEDURE(LONG Param:lNumber)
 
 Loc:stBuffer         STRING(20)
@@ -41,6 +42,8 @@ CLIP(Loc:stBuffer)
   RETURN(CLIP(Loc:stSign) & CLIP(Loc:stBuffer))
 !----------------------------------------------------------------------
 
+```
+```
 Hex2Dec PROCEDURE(STRING Param:stNumber)
 
 Loc:lLoopIndex  LONG
@@ -68,6 +71,7 @@ VAL('9')
     Loc:lNumber += 16 ^ (Loc:lLoopIndex - 1) * Loc:lRemainder
   END
   RETURN(Loc:lSign * Loc:lNumber)
+```
 !----------------------------------------------------------------------
 
 # h1 заголовок первого уровня
