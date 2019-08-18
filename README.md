@@ -181,11 +181,71 @@ loc:i Long
 
 
 !----------------------------------------------------------------------
+!----------------------------------------------------------------------
+
+# Вычисление размера файла
+
+```
+GetFileInfo     PROCEDURE(String PassedFileName,String PassedType)
+LocalFileQueue  Queue(File:queue),Pre(FIL)
+                 End
+   CODE
+
+   Directory(LocalFileQueue,PassedFileName,ff_:NORMAL)
+
+   If Records(LocalFileQueue) = 1
+     Get(LocalFileQueue,1)
+     If Error()
+       Message(Error())
+     Else
+       Free(LocalFileQueue)
+
+       Case PassedType
+       Of 1
+         Return LocalFileQueue.Size
+       Of 2
+         Return LocalFileQueue.Date
+       Of 3
+         Return LocalFileQueue.Time
+       Else
+         Return FALSE
+       End
+     End
+   End
+
+   Free(LocalFileQueue)
+
+   Return FALSE
+```
 
 !----------------------------------------------------------------------
 
-# h1 заголовок первого уровня
-
 !----------------------------------------------------------------------
 
-!----------------------------------------------------------------------
+# Вычисление CRC
+
+ ```
+ MAP
+    Calc_CRC(ULONG _StartAddr,ULONG _EndAddr),ULONG
+  END
+
+Calc_CRC PROCEDURE(ULONG _StartAddr,ULONG _EndAddr)
+
+loc:CRC       ULONG,AUTO
+loc:Bit_Count BYTE,AUTO
+loc:Char_Ptr  ULONG,AUTO
+loc:Char      BYTE,AUTO
+
+  Code
+  CLEAR(loc:CRC,1)
+  LOOP loc:Char_Ptr = _StartAddr to _EndAddr
+    PEEK(loc:Char_Ptr,loc:Char)
+    loc:CRC = BXOR(loc:CRC,loc:Char)
+    LOOP loc:Bit_Count = 0 to 7
+      IF BAND(loc:CRC,1)
+         loc:CRC = BXOR(BSHIFT(loc:CRC,-1),0A001h)
+      ELSE
+         loc:CRC = BSHIFT(loc:CRC,-1)
+  . . .
+  Return(loc:CRC)
+```
