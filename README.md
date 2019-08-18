@@ -6,7 +6,6 @@
 !----------------------------------------------------------------------
     Dec2Hex(LONG Param:lNumber),STRING,PRIVATE
     Hex2Dec(STRING Param:stNumber),LONG,PRIVATE
-
 !----------------------------------------------------------------------
 Dec2Hex PROCEDURE(LONG Param:lNumber)
 
